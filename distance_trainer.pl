@@ -7,7 +7,7 @@
 # Otherwise, please install cURL before using this software
 
 # This program requires HMMER3 (hmmer.org)
-# LINES 27, 323, AND 324 SHOULD BE MODIFIED BASED ON THE CORRECT PATHS IN THE USER ENVIRONMENT
+# LINES 27, 322, AND 323 SHOULD BE MODIFIED BASED ON THE CORRECT PATHS IN THE USER ENVIRONMENT
 ###################################################################################################################################################################
 ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($^T);
 $mon++;	 #days count from 1, months count from 0
@@ -179,7 +179,6 @@ sub ftp_download
 	 $mon++;       #months count from 0
          $year -= 100; #years count from 1900	 
 	 if ($debug) {print ("$acc:  $mon\/$mday\/$year $hour:$min:$sec\t\tstarted at $start_time\n");}	 
-	 $target_seq = '';
 	 $genome_ftp_directory = $paths{$_}[0];                                                        # retrieve the ftp path keyed to the accession number
 	 chomp($genome_ftp_directory);
 	 $genome_ftp_directory =~ /all\/(.*)/;
@@ -320,8 +319,8 @@ sub call_hmm
     my $hmm = shift;
     my $fasta = shift;
     chomp ($hmm);        
-    `/usr/local/packages/hmmer-3.1b2/bin/hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta`; 									# change to your hmmer3 hmmsearch location
-    if ($debug) {print  " /usr/local/packages/hmmer-3.1b2/bin/hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta \n";}   		# change to your hmmer3 hmmsearch location
+#    `/usr/local/packages/hmmer-3.1b2/bin/hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta`; 									# change to your hmmer3 hmmsearch location
+#    if ($debug) {print  " /usr/local/packages/hmmer-3.1b2/bin/hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta \n";}   		# change to your hmmer3 hmmsearch location
 
 }
 
