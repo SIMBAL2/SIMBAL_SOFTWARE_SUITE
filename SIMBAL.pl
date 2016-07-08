@@ -1,5 +1,5 @@
 
-## Program:       profiles_to_site_scripter.pl
+## Program:       SIMBAL.pl
 ## Author:        Daniel Haft,  JCVI
 ## Creation Date: March 19, 2008
 ##
@@ -336,8 +336,7 @@ sub do_binomial {
 
 ##  This program makes certain assumptions:
 ##
-##  1.   access to WU-BLAST program "blastp" in your path: see  http://blast.wustl.edu/
-##     (if you use NCBI-BLAST instead, options and parsing will differ some)
+##  1.   Access to NCBI-BLAST+
 ##
 ##  2.   The CEPHES math library, necessary for the complemented binomial distribution cunction  bdtrc
 ##
