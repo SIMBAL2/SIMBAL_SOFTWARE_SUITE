@@ -1,0 +1,74 @@
+improved_coloring <- function( dataFile, value.max, title.id=NULL) {
+  
+  if (missing(value.max) || !is.numeric(value.max))
+  {
+    value.max = NULL;
+  }
+  
+  #Setting the minimal value to be zero
+  value.min = 0;
+  
+  SIMBAL_OUTPUT <- read.delim(dataFile, header=FALSE)
+  
+  if (is.null(value.max))
+  {
+    value.max = max(SIMBAL_OUTPUT$V4)
+  }
+  #making the max.value as the optimal value
+  has.staturated = 0;
+  if (sum(SIMBAL_OUTPUT$V4 > value.max) >0)
+  {
+    has.staturated = 1;
+  }
+  if (min(SIMBAL_OUTPUT$V4) < value.min)
+  {
+    cat("Contains value less than 0. Please run only with non-negative values...\n\n");
+    return(NULL);
+  }
+  
+  SIMBAL_OUTPUT$V4[SIMBAL_OUTPUT$V4 > value.max] = value.max
+  SIMBAL_OUTPUT$scaled <- (SIMBAL_OUTPUT$V4)/value.max;
+  
+  #Smoothing the groups for a clearer color palette
+  split.id = c(0, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4);
+  
+  #Creating the colors for the color guide
+  col.legend.val = seq(from = value.min, to = value.max, by = (value.max - value.min)/100);
+  col.legend.grp = rep(0, length(col.legend.val));
+  col.legend.splt = floor((1-col.legend.val/value.max) / .10);
+  
+  for (i in 0:10)
+  {
+    col.legend.grp[col.legend.splt == i] <- split.id[i+1]
+  }  
+  
+  col.legend.x_val <- floor(col.legend.grp)
+  col.legend.y_val <- floor(255*(col.legend.grp - col.legend.x_val))
+
+  #creating colors for the color guide
+  col.legend.colors = rep("#0000FF", length(col.legend.val))
+  col.legend.colors[col.legend.x_val == 0] <- rgb(255, col.legend.y_val[col.legend.x_val == 0], 0, maxColorValue = 255)
+  col.legend.colors[col.legend.x_val == 1] <- rgb(255-col.legend.y_val[col.legend.x_val == 1], 255, 0, maxColorValue = 255)
+  col.legend.colors[col.legend.x_val == 2] <- rgb(0, 255, col.legend.y_val[col.legend.x_val == 2], maxColorValue = 255)
+  col.legend.colors[col.legend.x_val == 3] <- rgb(0, 255-col.legend.y_val[col.legend.x_val == 3], 255, maxColorValue = 255)
+  col.legend.colors[col.legend.x_val == 4] <- rgb(0, 0, 255, maxColorValue = 255)
+  
+  #twentycolors <- c("#0034FF", "#0066FF", "#009AFF", "#00CCFF", "#00FFFF", "#00FFCB", "#00FF99", "#00FF65", "#00FF33", "#00FF00", "#34FF00", "#66FF00", "#9AFF00", "#CCFF00", "#FFFF00", "#FFCB00", "#FF9900", "#FF6500", "#FF3300", "#FF0000")
+  library(ggplot2)
+  #Starting off the ggplot:
+  p <- ggplot(data=SIMBAL_OUTPUT, aes(x = V3, y = V2, col=V4));
+  #Making the shape (shape 18 = rhombas; 16 = circle)
+  p <- p + geom_point(shape=16, size = rel(3.14))
+  p <- p +scale_colour_gradientn(colours=unique(as.character(col.legend.colors[order(col.legend.grp, decreasing=T)])), limits = c(value.min, value.max))
+  #Adding the labels. If you want a title on the color bar, add to color
+  p <- p +labs(x = "PEPTIDE MIDPOINT", y = "PEPTIDE LENGTH", color="");
+  # Getting the font size for the axis titles and the axis tick mark texts
+  p <- p + theme(axis.title=element_text(size=rel(1.6)), axis.text=element_text(size=rel(1.2)))
+  # Making the legend text and size bigger
+  p <- p + theme(legend.text = element_text(size=rel(1.5))) + guides(color = guide_colorbar(barheight = rel(20)))
+  if (!is.null(title.id))
+  {
+    p <- p + ggtitle(title.id)+theme(plot.title = element_text(size=rel(2)));
+  }
+  p
+}
