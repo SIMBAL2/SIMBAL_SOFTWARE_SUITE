@@ -881,7 +881,7 @@ sub report_problem
 {
 	$problem = shift;
 	open(PROBLEM, ">>FAILED_TO_DOWNLOAD");
-	print PROBELM "$problem\n";
+	print PROBLEM "$problem\n";
 	close PROBLEM;
 	$problematic = 1;
 }
