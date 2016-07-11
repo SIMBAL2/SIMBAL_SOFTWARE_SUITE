@@ -77,7 +77,7 @@ mkdir("_TMP") unless (-e "_TMP");
 mkdir("_JUNK") unless (-e "_JUNK");
 
 			
-if (!$input_list && !$input_acc && !$complete && !$reference)
+if (!$input_list && !$input_acc && !$complete && !$reference && !$help)
 {
     carp ("!!!!!!!!!!!!!!ERROR, THIS PROGRAM REQUIRES A FORM OF INPUT!!!!!!!!!!!!!\n");
     $help = 1;
