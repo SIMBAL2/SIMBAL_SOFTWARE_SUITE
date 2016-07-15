@@ -124,7 +124,7 @@ if ($complete)                                                       ## Download
 if ($reference)                                                       ## Download RefSeq genome list, analyze every genome marked Complete
 {
 	`curl ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/bacteria/assembly_summary.txt > genome_list`;
-	`grep -P "[reference|representative] genome" genome_list >> reference_list`;
+	`grep -P "[reference|representative] genome" genome_list > reference_list`;
 	@desired_genomes = read_list("./reference_list"); 	     ## This file (reference_list) can be used as a record of what genomes existed when the complete flag was invoked (assuming you don't overwrite it)
 }
 
