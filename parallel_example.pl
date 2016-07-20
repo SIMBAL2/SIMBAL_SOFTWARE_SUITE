@@ -1,4 +1,4 @@
-# an example implementation for how to parallelize SIMBAL
+# an example (rough) implementation for how to parallelize SIMBAL
 # since grid implementations differ depending on workspace, and usually requires system-specific configuration
 # this version is not expected to work as-written on non-JCVI systems
 # this is instead supposed to serve as an example for how one might write their own wrapper script_name
