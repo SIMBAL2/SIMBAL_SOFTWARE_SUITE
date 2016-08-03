@@ -193,7 +193,7 @@ sub ftp_download
 	   {	      
 		 print "curl $fasta_path > $location/ftp_downloads/$_.fasta.gz\n"; 
 		 `curl $fasta_path > $location/ftp_downloads/$_.fasta.gz`;                                             # individually named so that user can keep files if desired
-		  if (! -e "$location/ftp_downloads/$_.fasta.gz") {report_problem($_); next;} 
+		  if (! -s "$location/ftp_downloads/$_.fasta.gz") {report_problem($_); next;} 
 		           	 `gunzip  $location/ftp_downloads/$_.fasta.gz`;                                                        # files are downloaded zipped
 		  $downloaded = 1;
 	   }
@@ -201,7 +201,7 @@ sub ftp_download
 	   {	      
 		 print "curl $gff_path > $location/ftp_downloads/$_.gff.gz\n"; 
 	         `curl $gff_path > $location/ftp_downloads/$_.gff.gz`;                                                 # individually named so that user can keep files if desired
-		 if (! -e "$location/ftp_downloads/$_.gff.gz") {report_problem($_); next;} 
+		 if (! -s "$location/ftp_downloads/$_.gff.gz") {report_problem($_); next;} 
 		          	 `gunzip $location/ftp_downloads/$_.gff.gz`;                                                           # files are downloaded zipped
 		 $downloaded = 1;
 	   }
