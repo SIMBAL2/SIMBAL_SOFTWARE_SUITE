@@ -69,7 +69,14 @@ sub search_fasta
 			{
 				$identifier = $1;
 				$tmp_seq = '';
-				$header = $line;
+				if ($line =~ /(\S*)\s/)
+				{
+					$header = $1;	
+				}
+				else
+				{
+					$header = $line;	
+				}
 				while ($seq_line = <FASTA>)
 				{
 					if (!($seq_line =~ />/))
@@ -91,7 +98,7 @@ sub search_fasta
 #					$tmp_seq =~ /.{$from}(.{$length})/;
 					$sub_seq = substr $tmp_seq, $from, $length;
 					if ($tmp_seq && $full) {chomp($header); print("$header\n$tmp_seq\n\n")}
-					elsif ($sub_seq && $length) {chomp($header); print("$header\($from\.$to\)\n$sub_seq\n\n");}
+					elsif ($sub_seq && $length) {chomp($header); print("$header\\$from\-$to\n$sub_seq\n\n");}
 					
 				}
 			}
