@@ -26,8 +26,8 @@ GetOptions ( 'seqs=s' => \$seqs,
 
 if (!$hmm || !$domain_cutoff || !$protein_cutoff) {die "$usage\n";}
 if (!$seqs) {die "$usage\n";}
-#`hmmsearch -T $protein_cutoff --domtblout $junk  $hmm  $seqs`;
-`hmm3search -T $protein_cutoff --domtblout $junk  $hmm  $seqs`;
+`hmmsearch -T $protein_cutoff --domtblout $junk  $hmm  $seqs`;
+#`hmm3search -T $protein_cutoff --domtblout $junk  $hmm  $seqs`; <- JCVI alias
 read_domtblout($junk);
 search_fasta($seqs);
 
