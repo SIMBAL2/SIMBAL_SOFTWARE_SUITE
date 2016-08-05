@@ -98,7 +98,7 @@ sub search_fasta
 #					$tmp_seq =~ /.{$from}(.{$length})/;
 					$sub_seq = substr $tmp_seq, $from, $length;
 					if ($tmp_seq && $full) {chomp($header); print("$header\n$tmp_seq\n\n")}
-					elsif ($sub_seq && $length) {chomp($header); print("$header\\$from\-$to\n$sub_seq\n\n");}
+					elsif ($sub_seq && $length) {chomp($header); print("$header\/$from\-$to\n$sub_seq\n\n");}
 					
 				}
 			}
