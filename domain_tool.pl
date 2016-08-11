@@ -11,6 +11,7 @@ This program requires the following flags:
 -protein <protein score cutoff>
 -full <print full sequences (default is no)>
 -extend <amount to extend domain match regions by>
+-invert <print longest subsequence not containing the domain (default is no) WARNING - not supported for repeated domains>
 
 Optional flag:
 -tmp <override the default location for the HMM results>
@@ -22,7 +23,8 @@ GetOptions ( 'seqs=s' => \$seqs,
 	     'protein=s' => \$protein_cutoff,
 	     'tmp=s' => \$junk,
 		'extend=i' => \$extend,
-		'full' => \$full);
+		'full' => \$full,
+		'invert' => \$invert);
 
 if (!$hmm || !$domain_cutoff || !$protein_cutoff) {die "$usage\n";}
 if (!$seqs) {die "$usage\n";}
@@ -98,6 +100,14 @@ sub search_fasta
 #					$tmp_seq =~ /.{$from}(.{$length})/;
 					$sub_seq = substr $tmp_seq, $from, $length;
 					if ($tmp_seq && $full) {chomp($header); print("$header\n$tmp_seq\n\n")}
+					elsif ($tmp_seq && $invert) 
+					{
+						chomp ($header);
+						$n_term = substr $tmp_seq, 0, $from;
+						$c_term = substr $tmp_seq, $to, (length($tmp_seq) - $to);
+						print("$header\/n_term\n$n_term\n\n");
+						print("$header\/c_term\n$c_term\n\n");
+					}
 					elsif ($sub_seq && $length) {chomp($header); print("$header\/$from\-$to\n$sub_seq\n\n");}
 					
 				}
