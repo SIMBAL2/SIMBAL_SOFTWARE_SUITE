@@ -41,6 +41,8 @@ plus additional options
 	-tmp <file path>                  specify a file to use to store HMM results (if unspecified, program uses ./extraction.tmp)
 	-full							  print entire sequences instead of just domains (to filter a file based on domain presence, rather than extract domains)
 	-extend <distance>				  domains are extended by <distance> in each direction (or until the end of the protein is reached)
+	-invert                                           instead of reporting the domain, provides the subseq on the N-terminal side of the domain and the subseq on the C-terminal side of the domain. 
+							  useful for looking for 'new' domains
 All flags other than -tmp are required.
 
 This software searches the file given by -seqs with the HMM given by -hmm, and reports all regions that meet the cutoff given by -domain that come from proteins that meet the cutoff given by -protein
