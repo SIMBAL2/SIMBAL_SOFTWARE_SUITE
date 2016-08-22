@@ -1,0 +1,20 @@
+Here is what is contained in the sample_rhombosortase_data directory
+rhomb_config                    a sample TSB configuration file for collecting rhombosortase in the yes set, other rhomboid family proteins in the no set
+rhombosortase_no.seqs           sample TSB output for the NO set, based on the rhomb_config
+rhombosortase_no.clust.seqs     rhombosortase_no.seqs non-redundified at 80% using usearch
+rhombosortase_yes.seqs           sample TSB output for the YES set, based on the rhomb_config
+rhombosortase_yes.clust.seqs     rhombosortase_yes.seqs non-redundified at 80% using usearch
+query_rhomb                     a sample query rhombosortase for use in SIMBAL (along with the two clust.seqs files)
+rhombosortase_raw.txt           SIMBAL output from the previous data, ready for plotting in R
+rhombosortase_rescored.txt      rhombosortase_raw.txt run through the plume interpreter at 93% heritability, ready for plotting in R
+
+
+
+These are intended to serve simply as sample data and to allow testing of one piece of the software suite without requiring running
+prior components. This data was created by running the software, with no additional modification, but should not be used for reference
+purposes. TSB does require HMMs to be downloaded and present in the locations given in the configuration file - to test TSB using 
+rhomb_config, either change the HMM paths in the config_file, or put the proper HMMs in that file location (changing paths is likely
+easier)
+
+For instructions on how to run the software refer to ../USAGE_INSTRUCTIONS   or check the individual programs for a description of the 
+runtime flags.
