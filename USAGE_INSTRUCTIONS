@@ -1,5 +1,6 @@
 These are usage instructions for the SIMBAL software suite. In a typical workflow, the various components will be run in the order they are described. Not every component will be needed in every run.
 
+Sample data can be found in sample_rhombosortase_data
 __________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Training Set Builder Usage:
