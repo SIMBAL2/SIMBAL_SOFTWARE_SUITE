@@ -340,3 +340,11 @@ sub do_binomial {
 ##
 ##  2.   The CEPHES math library, necessary for the complemented binomial distribution cunction  bdtrc
 ##
+## CEPHES can be installed globally or locally. For a global install, ask your systems administrator. For a local install, 
+## given are sample installation instructions - the steps may be slightly different depending on your system
+## Add this to your .bashrc:
+## eval $(perl -Mlocal::lib)
+
+## Then logout, log back in, and run:
+## cpanm Math::Cephes
+
