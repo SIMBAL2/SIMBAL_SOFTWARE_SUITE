@@ -181,7 +181,7 @@ sub ftp_download
 	 if ($debug) {print ("$acc:  $mon\/$mday\/$year $hour:$min:$sec\t\tstarted at $start_time\n");}	 
 	 $genome_ftp_directory = $paths{$_}[0];                                                        # retrieve the ftp path keyed to the accession number
 	 chomp($genome_ftp_directory);
-	 $genome_ftp_directory =~ /all\/(.*)/;
+	 $genome_ftp_directory =~ /.*\d\/(.*)/;
 	 $fasta_path = ($genome_ftp_directory."/$1"."_protein.faa.gz");                                # build the file path for pulling the fasta from the
 	                                                                                               # ftp directory
 	 $gff_path = ($genome_ftp_directory."/$1"."_genomic.gff.gz");                                  # build the file path for pulling the gff (coordinates)
