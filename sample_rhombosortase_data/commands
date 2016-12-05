@@ -1,0 +1,83 @@
+What this file contains: 
+sample commands for running the SIMBAL workflow on the example data
+a brief description of each step
+
+NOTE: other than the configuration file, the sample files have different names than the ones referenced below - this is to 
+allow users to generate their own files without worrying about collision with the sample files. 
+
+SAMPLE WORKFLOW:
+
+1) TRAINING SET BUILDER (TSB) 
+perl distance_trainer.pl -config rhomb_config -complete -keep
+EXPLANATION: 
+  This runs the Training Set Builder (TSB) to generate the YES and NO sequence sets
+  The -config flag specifies the path to the configuration file that defines the collection rules for the YES and NO sets.
+  rhomb_config is included in this directory.  A full explanation of the syntax for creating a configuration file is found in the 
+  file CONFIG.README
+  The -complete flag indicates what genomes TSB will look at when creating a training set, in this case, the entire RefSeq set of 
+  genomes marked as complete.
+  The -keep flag instructs the TSB not to delete the downloaded genomes after they are searched. If multiple TSB runs are planned
+  this is a recommended option as it greatly increases the speed of additional runs.
+  
+2) DOMAIN EXTRACTOR:
+[Not needed for the rhombosortase system]
+EXPLANATION:
+  Domain extraction is not needed in every run of the SIMBAL workflow. Usually, domain extraction is only required when the 
+  target HMM is not a full-length model, and thus the proteins collected will contain large amounts of sequence not relevant
+  to the desired analysis. In these cases, this software can be used to truncate the sequences just to the HMM hit region.
+
+3) USEARCH:
+usearch -cluster_fast _YES/yes.seqs -id 0.8 -centroids yes.clust.fasta
+usearch -cluster_fast _NO/no_attribute.seqs -id 0.8 -centroids no.clust.fasta
+EXPLANATION:
+  This runs USEARCH to make the training sets non-redundant at a user-specified level of identity. We run two commands, once
+  for the YES set, and once for the NO set. 
+  The -cluster_fast flag specifies the path to the sequences to be made non-redundant.
+  The -id flag specifies the level of identity to be used in the clustering. 0.8 indicates 80%
+  The -centroids flag specifies the name of the output file for the clustering. This can be any name/location desired by the user.
+
+4) SIMBAL:
+perl SIMBAL.pl -t yes.clust.fasta -f no.clust.fasta -s query_rhomb -j 1 -w 1 -m 7 -M 1000 -n rhombosortase
+EXPLANATION:
+  This runs SIMBAL to produce the raw SIMBAL scores than can then be displayed as a triangular heatmap.
+  The -t flag specifies the path to the TRUE set, which in most runs of SIMBAL will be the YES set.
+  The TRUE set is a protein set that is enriched in the function of interest.
+  The -f flag specifies the path to the FALSE set, which in most runs of SIMBAL will be the NO set (or the FAR set if a distance constraint was used)
+  The FLASE set is a protein set that is depelted in the function of interest.
+  The -s flag specifies the path to the query sequence. 
+  The query sequence is the sequence investigated by SIMBAL. Subsequences of the query are scored based on ability to distinguish between the TRUE and FALSE sets.
+  The -j and -w flags together specify the resolution of the SIMBAL analysis. Program runtime is inversely proportional to (w*j) so a
+  run of -j 4 -w 3 would run 12 times more quickly than a run of -j 1 -w 1. 
+  -j specifies the step size for changing the size of subsequences tested 
+  -w specifies the step size for sliding the midpoint of subsequences tested
+  The -m flag specifies the minimum length of subsequence tested. It is recommend that this value be 6 or greater, as BLAST results
+  for sequences shorter than 6 are unreliable.
+  The -M flag specifies the maximum length of subsequence tested. Values larger than the length of the query will be treated as 
+  if the length of the query had been given. Runs can be completed more quickly by choosing a value smaller than the length of the query,
+  but this will not produce a complete heatmap.
+  The -n flag specifies a project name. If this flag is included, SIMBAL output will be prefixed with the provided string.
+  
+5) HEATMAP:
+  To generate a traingular heatmap, paste the contents of the file adjustable_heatmap_script into R.
+  Once this has been done, heatmaps can be generated with the R command
+  improved_coloring("rhombosortase_REPORT", "RHOMBOSORTASE);
+  The first argument is the path to the SIMBAL output file, the second argument gives supplies the title R will give to the heatmap.
+
+******AT THIS POINT, THE SIMBAL WORKFLOW IS COMPLETE. ADDITIONAL OPTIONAL POST-PROCESSING STEPS GIVEN BELOW*********
+
+6) PLUME FINDER
+perl plume_finder.pl -input rhombosortase_REPORT -output rescored_REPORT
+Explanation:
+  This script allows for optional post-processing of SIMBAL output to assist with the visualization of "plumes". 
+  The output from this script can be displayed as a heatmap via the same mechanism as raw SIMBAL output. The rescored
+  heatmap can assist with the detection of signature regions, but only the raw data should be used in quantitative analysis.
+  
+7) SINGLE RESIDUE (EXPERIMENTAL)
+perl single_residue.pl -query query_rhomb -data rhombosortase_REPORT -length 9
+Explanation:
+  This script can be used to extrapolate scores down to a single residue, by averaging the scores at the provided length
+  of all subsequences that contain that particular residue. This can help with interpretation of results especially in 
+  conjunction with a crystal structure, but is not considered a validated portion of the SIMBAL workflow.
+  
+  
+  
