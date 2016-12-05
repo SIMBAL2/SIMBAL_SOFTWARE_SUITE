@@ -7,7 +7,7 @@ rhombosortase_yes.clust.seqs     rhombosortase_yes.seqs non-redundified at 80% u
 query_rhomb                     a sample query rhombosortase for use in SIMBAL (along with the two clust.seqs files)
 rhombosortase_raw.txt           SIMBAL output from the previous data, ready for plotting in R
 rhombosortase_rescored.txt      rhombosortase_raw.txt run through the plume interpreter at 93% heritability, ready for plotting in R
-
+commands                        a file containing sample commands for running the SIMBAL workflow
 
 
 These are intended to serve simply as sample data and to allow testing of one piece of the software suite without requiring running
