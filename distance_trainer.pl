@@ -319,8 +319,8 @@ sub call_hmm
     my $hmm = shift;
     my $fasta = shift;
     chomp ($hmm);        
-#    `/usr/local/packages/hmmer-3.1b2/bin/hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta`; 									# change to your hmmer3 hmmsearch location
-#    if ($debug) {print  " /usr/local/packages/hmmer-3.1b2/bin/hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta \n";}   		# change to your hmmer3 hmmsearch location
+#    `hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta`; 									# change to your hmmer3 hmmsearch location
+#    if ($debug) {print  "hmmsearch --tblout _TMP/hmm_results.tmp $hmm $fasta \n";}   		# change to your hmmer3 hmmsearch location
 
 }
 
