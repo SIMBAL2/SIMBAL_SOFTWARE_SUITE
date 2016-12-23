@@ -96,6 +96,8 @@ OPTIONS
  time is just the simplest way to break up and re-combine the data, and can be accomplished with a simple PERL script. This is probably only a
  thing worth doing if you expect to be doing a large number of high resolution SIMBAL runs. Personally, I've never found this approach to be a 
  necessity. - DRH
+ 
+ SIMBAL requires the CEPHES math library. If not already installed, any method for adding PERL modules may be used.
  __________________________________________________________________________________________________________________________________________________________________________________________________________________________________
  Heatmap Usage:
  R-studio is recommended, but any R distribution can be used. This software requires the ggplot2 graphical display package, which can easily be obtained from within R using install.packages(ggplot2)
