@@ -90,15 +90,17 @@ sub search_fasta
 
 				for ($i = 0; $i <= $#{$domains{$identifier}[0]}; $i++)
 				{
-					$from = $domains{$identifier}[0][$i];
-					$from = max(0, $from-$extend);
-					$to = $domains{$identifier}[1][$i];
+					$from = ($domains{$identifier}[0][$i]-1);
+					$from = max(0, ($from-$extend);
+					$to = ($domains{$identifier}[1][$i]-1);
 					$to = min($to+$extend, length($tmp_seq));
 					$length = ($to - $from + 1);
+					$to_1 = ($to + 1);
+					$from_1 = ($from + 1);
 #					$tmp_seq =~ /.{$from}(.{$length})/;
 					$sub_seq = substr $tmp_seq, $from, $length;
 					if ($tmp_seq && $full) {chomp($header); print("$header\n$tmp_seq\n\n")}
-					elsif ($sub_seq && $length) {chomp($header); print("$header\/$from\-$to\n$sub_seq\n\n");}
+					elsif ($sub_seq && $length) {chomp($header); print("$header\/$from_1\-$to_1\n$sub_seq\n\n");}
 					
 				}
 			}
