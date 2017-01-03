@@ -91,7 +91,7 @@ sub search_fasta
 				for ($i = 0; $i <= $#{$domains{$identifier}[0]}; $i++)
 				{
 					$from = ($domains{$identifier}[0][$i]-1);
-					$from = max(0, ($from-$extend);
+					$from = max(0, ($from-$extend));
 					$to = ($domains{$identifier}[1][$i]-1);
 					$to = min($to+$extend, length($tmp_seq));
 					$length = ($to - $from + 1);
