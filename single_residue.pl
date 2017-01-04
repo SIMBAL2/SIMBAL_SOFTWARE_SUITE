@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 use FileHandle;
 use Getopt::Long;
 $counter = 0;
