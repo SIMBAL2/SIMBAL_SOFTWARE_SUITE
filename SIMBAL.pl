@@ -1,4 +1,4 @@
-
+#!/usr/bin/perl
 ## Program:       SIMBAL.pl
 ## Author:        Daniel Haft,  JCVI
 ## Creation Date: March 19, 2008
