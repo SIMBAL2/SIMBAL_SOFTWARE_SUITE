@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 use FileHandle;
 use Getopt::Long;
 use List::Util qw[min max];
