@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 use Math::Round;
 use FileHandle;
 use Getopt::Long;
