@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 # TRAINING SET BUILDER BY DAVID RENFREW HAFT - COPYRIGHT 2015-2016
 # ALL RIGHTS RESERVED
 # SOFTWARE PUBLISHED UNDER THE GPL (GNU GENERAL PUBLIC LISCENSE) 
@@ -7,7 +8,7 @@
 # Otherwise, please install cURL before using this software
 
 # This program requires HMMER3 (hmmer.org)
-# LINES 27, 322, AND 323 SHOULD BE MODIFIED BASED ON THE CORRECT PATHS IN THE USER ENVIRONMENT
+# LINES 28, 323, AND 324 SHOULD BE MODIFIED BASED ON THE CORRECT PATHS IN THE USER ENVIRONMENT
 ###################################################################################################################################################################
 ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($^T);
 $mon++;	 #days count from 1, months count from 0
