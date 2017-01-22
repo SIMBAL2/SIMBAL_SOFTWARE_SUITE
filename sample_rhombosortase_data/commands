@@ -60,7 +60,7 @@ EXPLANATION:
 5) HEATMAP:
   To generate a traingular heatmap, paste the contents of the file adjustable_heatmap_script into R.
   Once this has been done, heatmaps can be generated with the R command
-  improved_coloring("rhombosortase_REPORT", "RHOMBOSORTASE);
+  improved_coloring("rhombosortase_REPORT", "RHOMBOSORTASE");
   The first argument is the path to the SIMBAL output file, the second argument gives supplies the title R will give to the heatmap.
 
 ******AT THIS POINT, THE SIMBAL WORKFLOW IS COMPLETE. ADDITIONAL OPTIONAL POST-PROCESSING STEPS GIVEN BELOW*********
