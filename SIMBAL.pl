@@ -185,8 +185,8 @@ if (-e $scratch_blast) {    # delete the searchable scratch file, if it exists, 
 }
 &append_fasta("TRUE_", $scratch_blast, \@truelib);
 &append_fasta("FALSE_",$scratch_blast, \@falselib);
-print "/usr/local/packages/ncbi-blast+/bin/makeblastdb -in $scratch_blast -dbtype prot\n";
-system("/usr/local/packages/ncbi-blast+/bin/makeblastdb -in $scratch_blast -dbtype prot") && die "It ain't work.";                      
+print "makeblastdb -in $scratch_blast -dbtype prot\n";
+system("makeblastdb -in $scratch_blast -dbtype prot") && die "It ain't work.";                      
 
 #  remember: window sizes from $mini to $maxi, jumping window size by $jump. Window slides by $walk
 my $seq_len = length($seq[0]{seq});
@@ -210,8 +210,8 @@ for ($win_size=$mini; $win_size<=$maxi; $win_size+=$jump) {
     	$blastout = "OUT_" . $proj_name . "_" . $win_size . "_" .$midpoint;
     #	print  "blastp $scratch_blast  $search_me -span1 -E $expect > $blastout\n";  # span1 protects vs. duplication
     #       system "blastp $scratch_blast  $search_me -span1 -E $expect > $blastout";    # span1 protects vs. duplication
-    	print 	"/usr/local/packages/ncbi-blast+/bin/blastp -query $search_me  -db $scratch_blast -outfmt 7\n";
-    	system "/usr/local/packages/ncbi-blast+/bin/blastp -query $search_me -db $scratch_blast -outfmt 7 > $blastout";
+    	print 	"blastp -query $search_me  -db $scratch_blast -outfmt 7\n";
+    	system "blastp -query $search_me -db $scratch_blast -outfmt 7 > $blastout";
     	print "$blastout\n";
     	&parse_blast ($blastout, $p, \@stats);
     	
