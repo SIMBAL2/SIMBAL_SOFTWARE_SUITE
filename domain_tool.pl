@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 use FileHandle;
 use Getopt::Long;
 use List::Util qw[min max];
@@ -12,7 +11,6 @@ This program requires the following flags:
 -protein <protein score cutoff>
 -full <print full sequences (default is no)>
 -extend <amount to extend domain match regions by>
-
 Optional flag:
 -tmp <override the default location for the HMM results>
 ";
@@ -27,8 +25,8 @@ GetOptions ( 'seqs=s' => \$seqs,
 
 if (!$hmm || !$domain_cutoff || !$protein_cutoff) {die "$usage\n";}
 if (!$seqs) {die "$usage\n";}
-`hmmsearch -T $protein_cutoff --domtblout $junk  $hmm  $seqs`;
-#`hmm3search -T $protein_cutoff --domtblout $junk  $hmm  $seqs`; <- JCVI alias
+#`hmmsearch -T $protein_cutoff --domtblout $junk  $hmm  $seqs`;
+`hmm3search -T $protein_cutoff --domtblout $junk  $hmm  $seqs`; #<- JCVI alias
 read_domtblout($junk);
 search_fasta($seqs);
 
@@ -63,26 +61,31 @@ sub search_fasta
 	open (FASTA, "$fasta") || die "cannot read sequence file\n";
 	my $tmp_seq = '';	
 	while ($line = <FASTA>)
-	{
+	{ 
+		
 		if ($line =~ /^>(.*?)\s/)
 		{
 			if ($domains{$1})
 			{
 				$identifier = $1;
 				$tmp_seq = '';
-				if ($line =~ /(\S*)\s/)
+				if ($line =~ /(.*?)\r?\n/)
 				{
 					$header = $1;	
 				}
 				else
 				{
-					$header = $line;	
+					$header = $line;
+					chomp($header);
 				}
 				while ($seq_line = <FASTA>)
 				{
 					if (!($seq_line =~ />/))
 		    			{
-						chomp($seq_line);							
+						local $/ = "\r\n";
+						chomp($seq_line);
+						local $/ = "\n";
+						chomp($seq_line);						
 						$tmp_seq = ($tmp_seq . $seq_line)
 		    			}
 		    			else {last;}
@@ -92,7 +95,7 @@ sub search_fasta
 				for ($i = 0; $i <= $#{$domains{$identifier}[0]}; $i++)
 				{
 					$from = ($domains{$identifier}[0][$i]-1);
-					$from = max(0, ($from-$extend));
+					$from = max(0, $from-$extend);
 					$to = ($domains{$identifier}[1][$i]-1);
 					$to = min($to+$extend, length($tmp_seq));
 					$length = ($to - $from + 1);
@@ -100,8 +103,10 @@ sub search_fasta
 					$from_1 = ($from + 1);
 #					$tmp_seq =~ /.{$from}(.{$length})/;
 					$sub_seq = substr $tmp_seq, $from, $length;
+					$sub_seq =~ s/(.{1,80})/$1\n/gs;
+					$tmp_seq =~ s/(.{1,80})/$1\n/gs;
 					if ($tmp_seq && $full) {chomp($header); print("$header\n$tmp_seq\n\n")}
-					elsif ($sub_seq && $length) {chomp($header); print("$header\/$from_1\-$to_1\n$sub_seq\n\n");}
+					elsif ($sub_seq && $length) {print("$header\/$from_1\-$to_1\n$sub_seq\n\n");}
 					
 				}
 			}
@@ -114,15 +119,3 @@ sub search_fasta
 		
 	}
 } 
-
-
-
-
-
-
-
-
-
-
-
-	
