@@ -812,7 +812,7 @@ sub check_distance                                                              
 {                                                                                # %attribute gets cleared after each rule, so we don't need to specify attribute
 	my $gene_identifier = shift;
 	my $required_distance = shift;
-	my ($molecule, $start, $stop) = gff_lookup($gene_identifier);            # yes, we looked this up earlier, but shhhhhhhh
+	my ($molecule, $start, $stop, $length) = gff_lookup($gene_identifier);            # yes, we looked this up earlier, but shhhhhhhh
 	my $target_midpoint = (($start + $stop)/2);                              # simple midpoint calculation
 	my $close = 0;
 	foreach $identifier (sort keys(%attribute))
@@ -823,12 +823,28 @@ sub check_distance                                                              
 		{
 		print("start: $start\tstop: $stop\tstart2: $attribute{$identifier}[2]\tstop2: $attribute{$identifier}[3]\tsum_half_lengths: $sum_half_lengths\n"); 
 		}
-	        if (!($molecule eq $attribute{$identifier}[1]))                     # check if on the same molecule
+	    if (!($molecule eq $attribute{$identifier}[1]))                     # check if on the same molecule
 		{
 			next;                                                       # if you aren't on the same molecule, then I don't care what your coordinates say
 		}
-	
-		if (abs($target_midpoint - $attribute_midpoint) > ($sum_half_lengths + $required_distance))
+		$distance = (abs($target_midpoint - $attribute_midpoint) - $sum_half_lengths);
+		if ($length && ($distance > ($length/2)))                       # if it isn't circular, or if the genes aren't more than half the genome away, don't check for distance across origin of replication
+		{
+			if($attribute_midpoint > $target_midpoint)
+			{
+				$tmp_dist = (abs(($attribute_midpoint - $length)-$target_midpoint)-$sum_half_lengths);
+			}
+			else
+			{
+				$tmp_dist = (abs(($target_midpoint - $length)-$attribute_midpoint)-$sum_half_lengths);
+			}
+			
+			if ($tmp_dist < $distance)
+			{
+				$distance = $tmp_dist;
+			}
+		}
+		if ($distance > $required_distance)
 		{
 			next;
 		}
@@ -846,12 +862,20 @@ sub gff_lookup
 {
     my $lookup_gene = shift;
     my @split_line = ();
+	my $circular = 0;
+	my $length = 0;
     open(GFF, $gff_path) || die"failed to open gff file at $gff_path\n";
     while ($line = <GFF>)
     {
 	if (!($line =~ /^#/))                                                         		## line doesn't start with "#", so is a result line
 	{
 	    @split_line = split(/\t/,$line);
+		if (!$circular && ($split_line[8] =~ /Is_circular=true;/)                       ## if we already know it is circular, we also already have the length
+		{
+			$circular = 1;
+			$length = $split_line[4];
+			next;
+		}
 	    if ($split_line[8] =~ /$lookup_gene/)
 	    {
 		if ($debug)
@@ -860,7 +884,7 @@ sub gff_lookup
 		    print DEBUG "$split_line[0]\n$split_line[1]\n$split_line[2]\n$split_line[3]\n$split_line[4]\n";
 		    close DEBUG;
 		}    
-		return ($split_line[0], $split_line[3], $split_line[4]);
+		return ($split_line[0], $split_line[3], $split_line[4], $length);      # a bit of a hack - a length of 0 means non-circular, a length of non-zero is the length
             }	
 	}    
 
