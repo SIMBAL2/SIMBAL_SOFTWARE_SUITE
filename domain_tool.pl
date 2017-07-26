@@ -62,7 +62,11 @@ sub search_fasta
 	my $tmp_seq = '';	
 	while ($line = <FASTA>)
 	{ 
-		
+	if ($next_one == 1)
+	{
+		$next_one = 0;
+		$line = $skipped_line;
+	}
 		if ($line =~ /^>(.*?)\s/)
 		{
 			if ($domains{$1})
@@ -88,7 +92,12 @@ sub search_fasta
 						chomp($seq_line);						
 						$tmp_seq = ($tmp_seq . $seq_line)
 		    			}
-		    			else {last;}
+		    			else 
+					{
+					$next_one = 1;
+					$skipped_line = $seq_line;
+					last;
+					}
 
 				}
 
