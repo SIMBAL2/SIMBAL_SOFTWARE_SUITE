@@ -54,7 +54,7 @@ OR
 -reference -> use all RefSeq reference and/or representative genome. if using this flag do not combine with other forms of input
 
 REQUIRED:
---config -> config file describing what sequences to collect and how to sort them - see README\n(defaults to looking for training_set.config in the current directory)
+--config -> config file describing what sequences to collect and how to sort them - see CONFIG.README\n (defaults to looking for training_set.config in the current directory)
  
 \n";
 
@@ -870,7 +870,7 @@ sub gff_lookup
 	if (!($line =~ /^#/))                                                         		## line doesn't start with "#", so is a result line
 	{
 	    @split_line = split(/\t/,$line);
-		if (!$circular && ($split_line[8] =~ /Is_circular=true;/)                       ## if we already know it is circular, we also already have the length
+		if (!$circular && ($split_line[8] =~ /Is_circular=true;/))                      ## if we already know it is circular, we also already have the length
 		{
 			$circular = 1;
 			$length = $split_line[4];
