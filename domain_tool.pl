@@ -90,7 +90,7 @@ sub search_fasta
 						chomp($seq_line);
 						local $/ = "\n";
 						chomp($seq_line);						
-						$tmp_seq = ($tmp_seq . $seq_line)
+						$tmp_seq = ($tmp_seq . $seq_line);
 		    			}
 		    			else 
 					{
@@ -114,7 +114,7 @@ sub search_fasta
 					$sub_seq = substr $tmp_seq, $from, $length;
 					$sub_seq =~ s/(.{1,80})/$1\n/gs;
 					$tmp_seq =~ s/(.{1,80})/$1\n/gs;
-					if ($tmp_seq && $full) {chomp($header); print("$header\n$tmp_seq\n\n")}
+					if ($tmp_seq && $full) {chomp($header); print("$header\n$tmp_seq\n\n");}
 					elsif ($sub_seq && $length) {print("$header\/$from_1\-$to_1\n$sub_seq\n\n");}
 					
 				}
